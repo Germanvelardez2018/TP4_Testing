@@ -1,10 +1,10 @@
 #include "comm.h"
+
+
 #include "mock_uart.h"
 #include "mock_gpio.h"
 #include "mock_delay.h"
 #include "mock_debug.h"
-
-
 
 #define SIMCOM_AT_UART             UART_A            //! Pin A10  (TX) y A9 (RX)
 #define SIMCOM_DEBUG_UART          DEBUG_UART        //! Pin A3 (RX)  y A2 (TX)
@@ -42,34 +42,15 @@ static uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la re
 #define CMD_GETGPSINFO                       "AT+CGNSINF\r\n"
 #define CMD_GETOPERATOR                       "AT+COPS?\r\n"
 
-
-
-//  !APNS
-//  !PERSONAL
-//!  APN_PERSONAL                 "datos.personal.com"
-//!  APN_USR_PASS_PERSONAL        "datos"
-//  !TUENTI
-//!  APN_TUENTI                   "internet.movil"
-//!  APN_USER_PASS_TUENTI         "internet"
-
-
-
 #define CMD_OPEN_APN_TUENTI                          "AT+CNACT=1,\"internet.movil\"\r\n"
 #define CMD_OPEN_APN_PERSONAL                        "AT+CNACT=1,\"datos.personal.com\"\r\n"
 
 #define CMD_GET_APN                                  "AT+CNACT?"       
 
-
-
-
-
 // ! Modo sleep y resume
 #define CMD_LOW_PWR_ON                              "AT+CPSMS=1\r\n"
 #define CMD_LOW_PWR_OFF                             "AT+CPSMS=0\r\n"
       
-
-
-
 //! Configuracion MQTT
  #define CMD_MQTT               "AT+SMCONF="
  #define CMD_MQTT_URL           " \"URL\""
@@ -257,7 +238,7 @@ static uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la re
  * @param len_cmd 
  * @return ** uint32_t 
  */
-static uint32_t __comm_cmd_send(uint8_t* cmd_string, uint8_t* exp_response){
+ uint32_t __comm_cmd_send(uint8_t* cmd_string, uint8_t* exp_response){
     int32_t ret = 1;
     // envio comando
     //BORRAMOS BUFFER DE RECEPCCION
@@ -273,7 +254,7 @@ static uint32_t __comm_cmd_send(uint8_t* cmd_string, uint8_t* exp_response){
 }
 
 
-static uint32_t __comm_cmd_send_with_ch_end(char* cmd_string, uint8_t* exp_response,uint8_t ch_end){
+ uint32_t __comm_cmd_send_with_ch_end(char* cmd_string, uint8_t* exp_response,uint8_t ch_end){
     int32_t ret = 1;
     // envio comando
     //BORRAMOS BUFFER DE RECEPCCION

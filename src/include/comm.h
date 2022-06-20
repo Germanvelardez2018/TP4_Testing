@@ -15,7 +15,64 @@
 
 
 #include "core.h"
-#include <stdint.h>
+
+
+#include "mock_uart.h"
+#include "mock_gpio.h"
+#include "mock_delay.h"
+#include "mock_debug.h"
+
+
+
+
+
+
+
+
+
+
+
+   uint32_t __comm_debug_write(uint8_t* buff);
+
+
+  uint32_t __comm_debug_write_raw(uint8_t buff, uint32_t len);
+
+ uint32_t  __comm_init();
+
+
+ void __comm_deinit();
+
+
+
+
+ uint8_t* __comm_get_buffer();
+  uint32_t __comm_read(void);
+
+
+ uint32_t __comm_write_with_ch_end(char* buff,uint8_t ch_end );
+
+
+  uint32_t __comm_write_raw(uint8_t* buff,uint8_t byte);
+
+
+  uint32_t __comm_write(uint8_t* buff);
+
+
+
+
+
+
+ uint32_t __comm_check_response(char* response);
+
+
+
+ uint32_t __comm_cmd_send_raw(char* cmd_string, char* exp_response,char ch_end );
+
+ uint32_t __comm_cmd_send(uint8_t* cmd_string, uint8_t* exp_response);
+
+ uint32_t __comm_cmd_send_with_ch_end(char* cmd_string, uint8_t* exp_response,uint8_t ch_end);
+
+
 
 
 

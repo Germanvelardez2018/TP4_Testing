@@ -10,7 +10,10 @@
  */
 #include "unity.h"
 
-
+#include "mock_uart.h"
+#include "mock_gpio.h"
+#include "mock_delay.h"
+#include "mock_debug.h"
 #include "comm.h"
 
 
@@ -38,8 +41,9 @@ void test_comm_init(){
 
 
 void test_comm_services_init(void){
-//    uint32_t ret =  comm_services_config_all();
-
-  //  TEST_ASSERT_CALLED_TIMES(1,comm_set_echo);
+   // uint32_t  ret =  comm_init();
+    uint32_t ret = 0;
+   TEST_ASSERT_EQUAL(ret,1);
+  // TEST_ASSERT_CALLED_TIMES(1,simo_uart_init);
 }
 

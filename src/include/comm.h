@@ -17,10 +17,7 @@
 #include "core.h"
 
 
-#include "mock_uart.h"
-#include "mock_gpio.h"
-#include "mock_delay.h"
-#include "mock_debug.h"
+
 
 
 
@@ -36,6 +33,8 @@
 
 
   uint32_t __comm_debug_write_raw(uint8_t buff, uint32_t len);
+
+
 
  uint32_t  __comm_init();
 

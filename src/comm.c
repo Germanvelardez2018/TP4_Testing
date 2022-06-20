@@ -6,6 +6,15 @@
 #include "mock_delay.h"
 #include "mock_debug.h"
 
+
+
+
+
+
+
+
+
+
 #define SIMCOM_AT_UART             UART_A            //! Pin A10  (TX) y A9 (RX)
 #define SIMCOM_DEBUG_UART          DEBUG_UART        //! Pin A3 (RX)  y A2 (TX)
 #define SIMCOM_BAUDRATE            115200
@@ -14,12 +23,10 @@
 
 
 
-#define SIMCOM_BUFFER_SIZE                 250
 #define SIMCOM_TIMEOUT_TX                  500
 #define SIMCOM_TIMEOUT_RX                  1000
-static uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la respuesta
 
-#define SIMCOM_BUFFER_ARRAY         (__comm_buffer)
+
 
 
 
@@ -63,6 +70,12 @@ static uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la re
 
 #define CMD_MQTT_TOPIC_CONFIG   "SIMO_CONFIG"
 
+
+
+
+#define SIMCOM_BUFFER_SIZE                 250
+uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la respuesta
+#define SIMCOM_BUFFER_ARRAY         (__comm_buffer)
 
 
 
@@ -202,12 +215,13 @@ static uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la re
  * @return ** uint32_t 
  */
  uint32_t __comm_check_response(char* response){
-    if(response == NULL ) return 0;
+    uint32_t ret = 0;
+    if(response == NULL ) return ret;
     uint32_t len_reponse = strlen(response)  ;
     uint32_t len_buffer = strlen(SIMCOM_BUFFER_ARRAY);
     uint32_t index = len_buffer - len_reponse ;  
-    uint32_t res = (  strncmp(&(SIMCOM_BUFFER_ARRAY[index]),response,len_reponse) == IS_EQUAL)?1:0;
-    return res;
+    ret = (  strncmp(&(SIMCOM_BUFFER_ARRAY[index]),response,len_reponse) == IS_EQUAL)?1:0;
+    return ret;
 }
 
 
@@ -435,7 +449,7 @@ uint32_t comm_sleep(){
 
 
 uint32_t comm_resume(){
-    uint32_t ret = __comm_cmd_send(CMD_LOW_PWR_OFF,CMD_OK);
+    uint32_t ret = __comm_cmd_send((uint8_t*)CMD_LOW_PWR_OFF,(uint8_t*)CMD_OK);
     return ret;
 
 }

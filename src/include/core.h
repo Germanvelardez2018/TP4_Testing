@@ -7,15 +7,15 @@
   #include "stdio.h"
 
 
-// Enabled key
+ // Enabled key
 
  // GPIO HARDWARE
- #define SIMO_GPIO_ENA           1
- #define NUM_SIMO_GPIO          40
+  #define SIMO_GPIO_ENA           1
+  #define NUM_SIMO_GPIO          40
 
  // UART HARDWARE
-#define SIMO_UART_ENA           1
-#define NUM_SIMO_UART           2
+  #define SIMO_UART_ENA           1
+  #define NUM_SIMO_UART           2
 
 
 
@@ -45,8 +45,6 @@
         #endif
         } SIMO_UART;
     #endif
-
-
 
 
 #endif

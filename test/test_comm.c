@@ -20,15 +20,8 @@ extern uint8_t __comm_buffer[];   // SIMCOM_BUFFER_ARRAY from comm.c
 
 
 
-
-
-void test_comm_init();
-
-
 void setUp(void)
-{
-    // Reset elements
-  // FFF_RESET_HISTORY;
+{    
   FFF_RESET_HISTORY();
   RESET_FAKE(simo_uart_init);
   RESET_FAKE(simo_gpio_set);
@@ -37,11 +30,6 @@ void setUp(void)
 
 // HARDWARE DE BAJO NIVEL UART SE INICIA CORRECTSMENTE
   simo_uart_init_fake.return_val = 1;
- 
-
-
-  
-
 }
 
 void tearDown(void)
@@ -78,7 +66,6 @@ void test_comm_init_ll(){
  * @note  Probamos la iniciacion del modulo en alto nivel
  * @return ** void 
  */
-
 void test_comm_init(){
   // simo_uart_init_fake.return_val = 1;
    uint32_t ret = 0;
@@ -130,8 +117,8 @@ void test_comm_cmd_read_ll(){
  */
 void test_comm_check_response_ll_FAIL_1(){
     uint32_t ret = 1;
+    //DEBE RETORNAR 0  CON NULL
     ret = __comm_check_response(NULL);
-    //DEBE FALLAR CON NULL
     TEST_ASSERT_EQUAL(0,ret);
 }
 
@@ -149,7 +136,6 @@ void test_comm_check_response_ll_FAIL_2(){
     #define RESPUESTA_FAIL  "RESPUESTASS"
     strcpy((char*)__comm_buffer,RESPUESTA_FAIL);
     ret = __comm_check_response(CMD_RESPONSE);
-    //DEBE FALLAR CON NULL
     TEST_ASSERT_EQUAL(0,ret);
 }
 

@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "comm.h": "c"
+        "comm.h": "c",
+        "core.h": "c"
     }
 }

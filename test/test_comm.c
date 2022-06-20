@@ -9,28 +9,37 @@
  * 
  */
 #include "unity.h"
-#include "mock_comm.h"
+
+
+#include "comm.h"
+
+
+
+
 
 
 void setUp(void)
 {
+    // Reset elements
+  // FFF_RESET_HISTORY;
+
 }
 
 void tearDown(void)
 {
 }
 
-void test_comm_init(){}
-
-
-
-
- // Probar que se option la respuesta deseada
-void test_comm_version(void){
-    uint32_t ret =0;
-    //comm_version_ExpectAndReturn(1);
-    TEST_ASSERT_EQUAL(1,ret);
-
-    
-
+void test_comm_init(){
+    TEST_FAIL_MESSAGE("HOLA");
 }
+
+
+
+
+
+void test_comm_services_init(void){
+//    uint32_t ret =  comm_services_config_all();
+
+  //  TEST_ASSERT_CALLED_TIMES(1,comm_set_echo);
+}
+

@@ -61,7 +61,7 @@ uint32_t  comm_check(void);
  * @param sleep 
  * @return ** void 
  */
-void comm_sleep();
+uint32_t comm_sleep();
 
 
 
@@ -73,13 +73,13 @@ uint32_t comm_version(void);
  * 
  * @return ** void 
  */
-void comm_resume();
+uint32_t comm_resume();
 
 
 
 uint32_t comm_config_irq(uint8_t value );
 
-void comm_send_mesage(char* sms, char* cellphone);
+uint32_t comm_send_mesage(char* sms, char* cellphone);
 
 
 

@@ -1,7 +1,8 @@
 #include "comm.h"
-#include "uart.h"
-#include "gpio.h"
-#include "debug.h"
+#include "mock_uart.h"
+#include "mock_gpio.h"
+#include "mock_delay.h"
+#include "mock_debug.h"
 
 
 
@@ -91,7 +92,7 @@ static uint8_t __comm_buffer[SIMCOM_BUFFER_SIZE] ={0};     //! Buffer para la re
  * @param len 
  * @return ** uint32_t 
  */
-static  inline uint32_t __comm_debug_write(uint8_t* buff){
+   uint32_t __comm_debug_write(uint8_t* buff){
     
         return debug_print(buff);
 }
@@ -99,7 +100,7 @@ static  inline uint32_t __comm_debug_write(uint8_t* buff){
 
 
 
-static inline uint32_t __comm_debug_write_raw(uint8_t buff, uint32_t len){
+  uint32_t __comm_debug_write_raw(uint8_t buff, uint32_t len){
     return debug_print_raw(buff, len);
 
 }
@@ -109,7 +110,7 @@ static inline uint32_t __comm_debug_write_raw(uint8_t buff, uint32_t len){
  * 
  * @return ** uint32_t 
  */
-static uint32_t  __comm_init(){
+ uint32_t  __comm_init(){
     uint32_t ret = 0;
     ret =  simo_uart_init(SIMCOM_AT_UART,SIMCOM_BAUDRATE);
     if(ret != 0 ){
@@ -126,7 +127,7 @@ static uint32_t  __comm_init(){
  * 
  * @return ** void 
  */
-static void __comm_deinit(){
+ void __comm_deinit(){
     simo_uart_deinit(SIMCOM_AT_UART);
 }
 
@@ -137,7 +138,7 @@ static void __comm_deinit(){
  * 
  * @return ** uint8_t* 
  */
-static uint8_t* __comm_get_buffer(){
+ uint8_t* __comm_get_buffer(){
     return SIMCOM_BUFFER_ARRAY;
 }
 
@@ -147,7 +148,7 @@ static uint8_t* __comm_get_buffer(){
  * 
  * @return ** uint32_t 
  */
-static  uint32_t __comm_read(void){
+  uint32_t __comm_read(void){
         uint32_t ret = 0;
         ret = simo_uart_read(SIMCOM_AT_UART,SIMCOM_BUFFER_ARRAY,SIMCOM_BUFFER_SIZE,SIMCOM_TIMEOUT_RX,0);
         
@@ -158,7 +159,7 @@ static  uint32_t __comm_read(void){
 
 
 
-static __comm_write_with_ch_end(char* buff,uint8_t ch_end ){
+ uint32_t __comm_write_with_ch_end(char* buff,uint8_t ch_end ){
      char buffer[250]={0};
      strncpy(buffer,buff,strlen(buff));
 
@@ -171,6 +172,10 @@ static __comm_write_with_ch_end(char* buff,uint8_t ch_end ){
 }
 
 
+
+
+
+
 /**
  * @brief Esribo por puerto asociado de salida
  * 
@@ -178,7 +183,27 @@ static __comm_write_with_ch_end(char* buff,uint8_t ch_end ){
  * @param len 
  * @return ** uint32_t 
  */
-static  uint32_t __comm_write(uint8_t* buff){
+  uint32_t __comm_write_raw(uint8_t* buff,uint8_t byte){
+        uint32_t ret = 0;
+        uint8_t _byte = byte;
+        if(buff != NULL){
+            ret = simo_uart_write(SIMCOM_AT_UART,buff,strlen(buff),SIMCOM_TIMEOUT_TX,0);
+            ret = simo_uart_write(SIMCOM_AT_UART,&_byte,1,SIMCOM_TIMEOUT_TX,0);
+
+
+        }
+        return ret;
+}
+
+
+/**
+ * @brief Esribo por puerto asociado de salida
+ * 
+ * @param buff 
+ * @param len 
+ * @return ** uint32_t 
+ */
+  uint32_t __comm_write(uint8_t* buff){
         uint32_t ret = 0;
         if(buff != NULL) ret = simo_uart_write(SIMCOM_AT_UART,buff,strlen(buff),SIMCOM_TIMEOUT_TX,0);
         return ret;
@@ -195,7 +220,7 @@ static  uint32_t __comm_write(uint8_t* buff){
  * @param response 
  * @return ** uint32_t 
  */
-static uint32_t __comm_check_response(char* response){
+ uint32_t __comm_check_response(char* response){
     if(response == NULL ) return 0;
     uint32_t len_reponse = strlen(response)  ;
     uint32_t len_buffer = strlen(SIMCOM_BUFFER_ARRAY);
@@ -207,7 +232,7 @@ static uint32_t __comm_check_response(char* response){
 
 
 
-static uint32_t __comm_cmd_send_raw(char* cmd_string, uint8_t exp_response,uint8_t ch_end ){
+ uint32_t __comm_cmd_send_raw(char* cmd_string, char* exp_response,char ch_end ){
     int32_t ret = 1;
     // envio comando
     //BORRAMOS BUFFER DE RECEPCCION
@@ -421,14 +446,14 @@ uint32_t comm_init(void ){
 
 
 
-void comm_sleep(){
+uint32_t comm_sleep(){
     uint32_t ret = __comm_cmd_send(CMD_LOW_PWR_ON,CMD_OK);
     return ret;
 }
 
 
 
-void comm_resume(){
+uint32_t comm_resume(){
     uint32_t ret = __comm_cmd_send(CMD_LOW_PWR_OFF,CMD_OK);
     return ret;
 
@@ -459,7 +484,7 @@ void comm_resume(){
 
 // Enviar un sms
 
-void comm_send_mesage(char* sms, char* cellphone){
+uint32_t comm_send_mesage(char* sms, char* cellphone){
 
     uint32_t ret = 0;
     if (cellphone == NULL) return 0;

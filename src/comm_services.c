@@ -1,8 +1,8 @@
 #include "comm_services.h"
-#include "mem_services.h"
+#include "mock_mem_services.h"
 #include "comm.h"
-#include "debug.h"
-#include "delay.h"
+#include "mock_debug.h"
+#include "mock_delay.h"
 
 
 #define MQTT_WAIT_MSG                   "Wait\r\n"
